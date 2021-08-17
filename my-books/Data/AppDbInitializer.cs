@@ -16,7 +16,7 @@ namespace my_books.Data
             {
                 var context = serviceScope.ServiceProvider.GetService<AppDbContext>();
 
-                if(!context.Books.Any())
+                if (!context.Books.Any())
                 {
                     context.Books.AddRange(new Book()
                     {
