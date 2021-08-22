@@ -29,7 +29,7 @@ namespace my_books.Controllers
         }
 
         //Get Author With Book By Id Controller
-        [HttpPost("get-author-with-books-by-id/{id}")]
+        [HttpGet("get-author-with-books-by-id/{id}")]
         public IActionResult GetAuthorWithBooks(int id)
         {
             var response = _authorsService.GetAuthorWithBooks(id);
