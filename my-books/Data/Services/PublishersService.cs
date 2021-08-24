@@ -17,7 +17,7 @@ namespace my_books.Data.Services
         }
 
         //Add Publisher Method
-        public void AddPublisher(PublisherVM publisher)
+        public Publisher AddPublisher(PublisherVM publisher)
         {
             var _publisher= new Publisher()
             {
@@ -26,7 +26,13 @@ namespace my_books.Data.Services
 
             _context.Publishers.Add(_publisher);
             _context.SaveChanges();
+
+            return _publisher;
         }
+
+        //Get Publisher By Id Method
+        public Publisher GetPublisherById(int id) => _context.Publishers.FirstOrDefault(n => n.Id == id);
+
 
         //Get Publisher Books With Authors Method 
         public PublisherWithBooksAndAuthorsVM GetPublisherData(int publisherId)
@@ -44,6 +50,7 @@ namespace my_books.Data.Services
 
             return _publisherData;
         }
+
         //Deleting Relational Data - Publisher Method 
         public void DeletePublisherById(int id)
         {

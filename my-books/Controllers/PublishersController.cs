@@ -24,8 +24,24 @@ namespace my_books.Controllers
         [HttpPost("add-publisher")]
         public IActionResult AddPublisher([FromBody] PublisherVM publisher)
         {
-            _publishersService.AddPublisher(publisher);
-            return Ok();
+            var newPublisher =_publishersService.AddPublisher(publisher);
+            return Created(nameof(AddPublisher), newPublisher);
+        }
+
+        //Get Publisher By Id Controller
+        [HttpGet("get-publisher-by-id/{id}")]
+        public IActionResult GetPublisherById(int id)
+        {
+            var _response = _publishersService.GetPublisherById(id);
+
+            if(_response != null)
+            {
+                return Ok(_response);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         //Get Publisher Books With Authors Controller
