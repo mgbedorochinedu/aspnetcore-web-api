@@ -35,6 +35,9 @@ namespace my_books.Data.Services
             return _publisher;
         }
 
+        //Get All Publisher Method
+        public List<Publisher> GetAllPublishers() => _context.Publishers.ToList();
+
         //Get Publisher By Id Method
         public Publisher GetPublisherById(int id) => _context.Publishers.FirstOrDefault(n => n.Id == id);
 
