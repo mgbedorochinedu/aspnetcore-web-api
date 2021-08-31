@@ -36,7 +36,27 @@ namespace my_books.Data.Services
         }
 
         //Get All Publisher Method
-        public List<Publisher> GetAllPublishers() => _context.Publishers.ToList();
+        public List<Publisher> GetAllPublishers(string sortBy)
+        {
+          var allPublishers = _context.Publishers.OrderBy(n => n.Name).ToList();
+
+            //If we have a value that is coming from the query parameter, this code runs 
+            if(!string.IsNullOrEmpty(sortBy))
+            {
+                switch (sortBy)
+                {
+                    //Checking if it has the case sortBy name_desc
+                    case "name_desc":
+                        allPublishers = allPublishers.OrderByDescending(n => n.Name).ToList();
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+
+            return allPublishers;
+        }
 
         //Get Publisher By Id Method
         public Publisher GetPublisherById(int id) => _context.Publishers.FirstOrDefault(n => n.Id == id);
