@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using my_books.Data.Models;
 using my_books.Data.Services;
 using my_books.Data.ViewModels;
@@ -16,10 +17,12 @@ namespace my_books.Controllers
     public class PublishersController : ControllerBase
     {
         private PublishersService _publishersService;
+        private readonly ILogger<PublishersController> _logger;
 
-        public PublishersController(PublishersService publishersService)
+        public PublishersController(PublishersService publishersService, ILogger<PublishersController> logger)
         {
             _publishersService = publishersService;
+            _logger = logger;
         }
 
         //Get All Publisher Controller
@@ -28,6 +31,7 @@ namespace my_books.Controllers
         {
             try
             {
+                _logger.LogInformation("This is just a log in GetAllPublisher");
                 var _result = _publishersService.GetAllPublishers(sortBy, searchString, pageNumber);
                 return Ok(_result);
             }
