@@ -13,7 +13,7 @@ namespace my_books.Controllers.v2
     [ApiController]
     public class TestController : ControllerBase
     {
-        [HttpGet("get-test-data")]
+        [HttpGet("get-test-data-v2")]
         public IActionResult Get()
         {
             return Ok("This is TestController V2");
