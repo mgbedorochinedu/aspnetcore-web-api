@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using my_books.Data;
 using my_books.Data.Models;
+using my_books.Data.Services;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace my_books_tests
             .Options;
 
         AppDbContext context;
+        PublishersService publishersService;
 
         [OneTimeSetUp]
         public void Setup()
@@ -22,9 +24,33 @@ namespace my_books_tests
             context.Database.EnsureCreated();
 
             SeedDatabase();
+            publishersService = new PublishersService(context);
         }
 
-        [OneTimeSetUp]
+        [Test]
+        public void GetAllPublishers_WithNoSortBy_WithNoSearchString_WithNoPageNumber_Test()
+        {
+            var result = publishersService.GetAllPublishers("", "", null);
+
+            Assert.That(result.Count, Is.EqualTo(3));
+            Assert.AreEqual(result.Count, 3);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        [OneTimeTearDown]
         public void CleanUp()
         {
             context.Database.EnsureDeleted();
