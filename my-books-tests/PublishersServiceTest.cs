@@ -32,10 +32,18 @@ namespace my_books_tests
         {
             var result = publishersService.GetAllPublishers("", "", null);
 
-            Assert.That(result.Count, Is.EqualTo(3));
-            Assert.AreEqual(result.Count, 3);
+            Assert.That(result.Count, Is.EqualTo(5));
+            Assert.AreEqual(result.Count, 5);
         }
 
+
+        [Test]
+        public void GetAllPublishers_WithNoSortBy_WithNoSearchString_WithPageNumber_Test()
+        {
+            var result = publishersService.GetAllPublishers("", "", 2);
+
+            Assert.That(result.Count, Is.EqualTo(1));
+        }
 
 
 
@@ -74,6 +82,21 @@ namespace my_books_tests
                 {
                     Id = 3,
                     Name = "Publisher 3"
+                },
+                new Publisher()
+                {
+                    Id = 4,
+                    Name = "Publisher 4"
+                },
+                new Publisher()
+                {
+                    Id = 5,
+                    Name = "Publisher 5"
+                },
+                new Publisher()
+                {
+                    Id = 6,
+                    Name = "Publisher 6"
                 }
             };
             context.Publishers.AddRange(publisher);
