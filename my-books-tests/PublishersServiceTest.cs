@@ -5,6 +5,7 @@ using my_books.Data.Services;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace my_books_tests
 {
@@ -43,6 +44,15 @@ namespace my_books_tests
             var result = publishersService.GetAllPublishers("", "", 2);
 
             Assert.That(result.Count, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void GetAllPublishers_WithNoSortBy_WithSearchString_WithNoPageNumber_Test()
+        {
+            var result = publishersService.GetAllPublishers("", "4", 2);
+
+            Assert.That(result.Count, Is.EqualTo(1));
+            Assert.That(result.FirstOrDefault().Name, Is.EqualTo("Publisher 4"));
         }
 
 
