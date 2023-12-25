@@ -28,7 +28,7 @@ namespace my_books_tests
             publishersService = new PublishersService(context);
         }
 
-        [Test]
+        [Test, Order(1)]
         public void GetAllPublishers_WithNoSortBy_WithNoSearchString_WithNoPageNumber_Test()
         {
             var result = publishersService.GetAllPublishers("", "", null);
@@ -38,7 +38,7 @@ namespace my_books_tests
         }
 
 
-        [Test]
+        [Test, Order(2)]
         public void GetAllPublishers_WithNoSortBy_WithNoSearchString_WithPageNumber_Test()
         {
             var result = publishersService.GetAllPublishers("", "", 2);
@@ -46,13 +46,24 @@ namespace my_books_tests
             Assert.That(result.Count, Is.EqualTo(1));
         }
 
-        [Test]
+        [Test, Order(3)]
         public void GetAllPublishers_WithNoSortBy_WithSearchString_WithNoPageNumber_Test()
         {
-            var result = publishersService.GetAllPublishers("", "4", 2);
+            var result = publishersService.GetAllPublishers("", "4", null);
 
             Assert.That(result.Count, Is.EqualTo(1));
             Assert.That(result.FirstOrDefault().Name, Is.EqualTo("Publisher 4"));
+        }
+
+
+        [Test, Order(4)]
+        public void GetAllPublishers_WithSortBy_WithSearchString_WithNoPageNumber_Test()
+        {
+            var result = publishersService.GetAllPublishers("name_desc", "", null);
+
+            Assert.That(result.Count, Is.EqualTo(5));
+            Assert.That(result.FirstOrDefault().Name, Is.EqualTo("Publisher 6"));
+            Assert.That(result.LastOrDefault().Name, Is.EqualTo("Publisher 2"));
         }
 
 
