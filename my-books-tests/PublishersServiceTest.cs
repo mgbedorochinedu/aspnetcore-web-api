@@ -93,6 +93,19 @@ namespace my_books_tests
 
         }
 
+        [Test, Order(6)]
+        public void GetPublisherId_NonExistingId_ReturnsNull()
+        {
+            //Arrange
+            int nonExisitingId = 999;
+
+            //Act
+            var result = _publishersService.GetPublisherById(nonExisitingId);
+
+            //Assert
+            Assert.IsNull(result);
+
+        }
 
 
 
