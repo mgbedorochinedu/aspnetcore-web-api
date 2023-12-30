@@ -79,22 +79,25 @@ namespace my_books_tests
         }
 
         [Test, Order(5)]
-        public void GetPublisherId_ExistingId_ReturnsPublisher()
+        public void GetPublisherId_ExistingId_ReturnsPublisher_Test()
         {
             //Arrange
             int exisitingId = 1;
+            string publisherName = "Publisher 1";
 
             //Act
             var result = _publishersService.GetPublisherById(exisitingId);
 
             //Assert
+            Assert.That(result.Name, Is.EqualTo(publisherName));
             Assert.IsNotNull(result);
+            Assert.That(result.Id, Is.EqualTo(exisitingId));
             Assert.AreEqual(exisitingId, result.Id);
 
         }
 
         [Test, Order(6)]
-        public void GetPublisherId_NonExistingId_ReturnsNull()
+        public void GetPublisherId_NonExistingId_ReturnsNull_Test()
         {
             //Arrange
             int nonExisitingId = 999;
@@ -104,7 +107,7 @@ namespace my_books_tests
 
             //Assert
             Assert.IsNull(result);
-
+            Assert.That(result, Is.Null);
         }
 
 
