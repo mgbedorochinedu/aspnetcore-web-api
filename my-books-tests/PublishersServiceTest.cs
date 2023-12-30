@@ -16,7 +16,7 @@ namespace my_books_tests
             .Options;
 
         AppDbContext context;
-        PublishersService publishersService;
+        PublishersService _publishersService;
 
         [OneTimeSetUp]
         public void Setup()
@@ -25,13 +25,15 @@ namespace my_books_tests
             context.Database.EnsureCreated();
 
             SeedDatabase();
-            publishersService = new PublishersService(context);
+            _publishersService = new PublishersService(context);
         }
+
+
 
         [Test, Order(1)]
         public void GetAllPublishers_WithNoSortBy_WithNoSearchString_WithNoPageNumber_Test()
         {
-            var result = publishersService.GetAllPublishers("", "", null);
+            var result = _publishersService.GetAllPublishers("", "", null);
 
             Assert.That(result.Count, Is.EqualTo(5));
             Assert.AreEqual(result.Count, 5);
@@ -41,30 +43,57 @@ namespace my_books_tests
         [Test, Order(2)]
         public void GetAllPublishers_WithNoSortBy_WithNoSearchString_WithPageNumber_Test()
         {
-            var result = publishersService.GetAllPublishers("", "", 2);
-
+            // Act
+            var result = _publishersService.GetAllPublishers("", "", 2);
+            //Assert
             Assert.That(result.Count, Is.EqualTo(1));
         }
 
         [Test, Order(3)]
         public void GetAllPublishers_WithNoSortBy_WithSearchString_WithNoPageNumber_Test()
         {
-            var result = publishersService.GetAllPublishers("", "4", null);
+
+            // Arrange
+            string searchString = "Publisher 4";
+
+            // Act
+            var result = _publishersService.GetAllPublishers("", searchString, null);
 
             Assert.That(result.Count, Is.EqualTo(1));
             Assert.That(result.FirstOrDefault().Name, Is.EqualTo("Publisher 4"));
+            CollectionAssert.AreEquivalent(result.Where(p => p.Name.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)).ToList(), result);    
         }
 
 
         [Test, Order(4)]
         public void GetAllPublishers_WithSortBy_WithSearchString_WithNoPageNumber_Test()
         {
-            var result = publishersService.GetAllPublishers("name_desc", "", null);
-
+            //Act
+            var result = _publishersService.GetAllPublishers("name_desc", "", null);
+            //Assert
             Assert.That(result.Count, Is.EqualTo(5));
             Assert.That(result.FirstOrDefault().Name, Is.EqualTo("Publisher 6"));
             Assert.That(result.LastOrDefault().Name, Is.EqualTo("Publisher 2"));
+            //Assert DescendingOrder
+            CollectionAssert.AreEqual(result.OrderByDescending(p => p.Name).ToList(), result);
         }
+
+        [Test, Order(5)]
+        public void GetPublisherId_ExistingId_ReturnsPublisher()
+        {
+            //Arrange
+            int exisitingId = 1;
+
+            //Act
+            var result = _publishersService.GetPublisherById(exisitingId);
+
+            //Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(exisitingId, result.Id);
+
+        }
+
+
 
 
 
