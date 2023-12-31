@@ -186,6 +186,17 @@ namespace my_books_tests
 
 
 
+        [Test, Order(11)]
+        public void DeletePublisherById_NonExistingId_ThrowsException()
+        {
+            // Arrange
+            int nonExistingId = 999; // Assuming this ID does not exist in the sample data
+
+            // Assert & Act
+            var ex = Assert.Throws<Exception>(() => _publishersService.DeletePublisherById(nonExistingId));
+            Assert.AreEqual($"The publisher with id: {nonExistingId} does not exist", ex.Message);
+        }
+
 
 
 
