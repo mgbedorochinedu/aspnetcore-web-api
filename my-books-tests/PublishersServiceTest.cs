@@ -142,8 +142,49 @@ namespace my_books_tests
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Name, Does.StartWith("Without"));
             Assert.That(result.Id, Is.Not.Null);
+        }
+
+
+        [Test, Order(9)]
+        public void GetPublisherData_Test()
+        {
+            //Arrange
+            int exisitingPublisherId = 1;
+            string publisherName = "Publisher 1";
+            string firstBook = "Book 1 Title";
+
+            //Act
+            var result = _publishersService.GetPublisherData(exisitingPublisherId);
+
+            //Assert
+            Assert.That(result.Name, Is.EqualTo(publisherName));
+            Assert.That(result.BookAuthors, Is.Not.Empty);
+            Assert.That(result.BookAuthors.Count, Is.GreaterThan(0));
+
+            var firstBookName = result.BookAuthors.OrderBy(x => x.BookName).FirstOrDefault().BookName;
+            Assert.That(firstBookName, Is.EqualTo(firstBook));
+            Assert.That(result, Is.Not.Null);
 
         }
+
+
+
+        [Test, Order(10)]
+        public void DeletePublisherById_ExistingId_RemovesPublisher_Test()
+        {
+            //Arrange
+            int existingPublisherId = 1;
+
+            //Act
+             _publishersService.DeletePublisherById(existingPublisherId);
+
+            //Assert
+            var deletedPublisher = context.Publishers.FirstOrDefault(x => x.Id == existingPublisherId);
+            Assert.IsNull(deletedPublisher, $"Publisher with ID {existingPublisherId} should have been deleted.");
+
+        }
+
+
 
 
 
