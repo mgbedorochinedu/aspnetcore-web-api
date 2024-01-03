@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging.Abstractions;
+using my_books.Controllers;
 using my_books.Data;
 using my_books.Data.Models;
 using my_books.Data.Services;
@@ -14,11 +16,15 @@ namespace my_books_tests
     public class PublishersServiceTest
     {
         private static DbContextOptions<AppDbContext> dbContextOptions = new DbContextOptionsBuilder<AppDbContext>()
-            .UseInMemoryDatabase(databaseName: "BookDbTest")
+            .UseInMemoryDatabase(databaseName: "PublisherServiceDbTest")
             .Options;
 
         AppDbContext context;
         PublishersService _publishersService;
+        PublishersController _publishersController;
+
+
+
 
         [OneTimeSetUp]
         public void Setup()
@@ -28,7 +34,10 @@ namespace my_books_tests
 
             SeedDatabase();
             _publishersService = new PublishersService(context);
+            _publishersController = new PublishersController(_publishersService, new NullLogger<PublishersController>());
         }
+
+
 
 
 
