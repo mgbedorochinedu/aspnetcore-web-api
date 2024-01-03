@@ -1,6 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging.Abstractions;
-using my_books.Controllers;
 using my_books.Data;
 using my_books.Data.Models;
 using my_books.Data.Services;
@@ -21,7 +19,7 @@ namespace my_books_tests
 
         AppDbContext context;
         PublishersService _publishersService;
-        PublishersController _publishersController;
+
 
 
 
@@ -34,7 +32,7 @@ namespace my_books_tests
 
             SeedDatabase();
             _publishersService = new PublishersService(context);
-            _publishersController = new PublishersController(_publishersService, new NullLogger<PublishersController>());
+           
         }
 
 

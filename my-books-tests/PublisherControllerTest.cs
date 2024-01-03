@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging.Abstractions;
+using my_books.Controllers;
 using my_books.Data;
 using my_books.Data.Models;
 using my_books.Data.Services;
@@ -20,6 +23,7 @@ namespace my_books_tests
 
         AppDbContext context;
         PublishersService _publishersService;
+        PublishersController _publishersController;
 
         [OneTimeSetUp]
         public void Setup()
@@ -29,7 +33,30 @@ namespace my_books_tests
 
             SeedDatabase();
             _publishersService = new PublishersService(context);
+            _publishersController = new PublishersController(_publishersService, new NullLogger<PublishersController>());
         }
+
+        [Test, Order(1)]
+        public void HTTPGET_GetAllPublishers_WithSortBy_WithSearchString_WithPageNumber_ReturnOk_Test()
+        {
+            IActionResult actionResult = _publishersController.GetAllPublisher("name_desc", "Publisher", 1);
+            Assert.That(actionResult, Is.TypeOf<OkObjectResult>());
+            var actionResultData = (actionResult as OkObjectResult).Value as List<Publisher>;
+            Assert.That(actionResultData.First().Name, Is.EqualTo("Publisher 6"));
+            Assert.That(actionResultData.First().Id, Is.EqualTo(6));
+            Assert.That(actionResultData.Count, Is.EqualTo(5));
+
+            IActionResult actionResultSecondPage = _publishersController.GetAllPublisher("name_desc", "Publisher", 2);
+            Assert.That(actionResultSecondPage, Is.TypeOf<OkObjectResult>());
+            var actionResultDataSecondPage = (actionResultSecondPage as OkObjectResult).Value as List<Publisher>;
+            Assert.That(actionResultDataSecondPage.First().Name, Is.EqualTo("Publisher 1"));
+            Assert.That(actionResultDataSecondPage.First().Id, Is.EqualTo(1));
+            Assert.That(actionResultDataSecondPage.Count, Is.EqualTo(1));
+        }
+
+
+
+
 
 
 
