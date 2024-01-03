@@ -73,6 +73,21 @@ namespace my_books_tests
 
 
 
+        [Test, Order(3)]
+        public void HTTPGET_GetPublisherById_ReturnNotFound_Test()
+        {
+            //Arrange
+            int publisherId = 99;
+
+            // Act
+            IActionResult actionResult = _publishersController.GetPublisherById(publisherId);
+
+            // Assert
+            Assert.That(actionResult, Is.TypeOf<NotFoundResult>());
+        }
+
+
+
 
 
 
