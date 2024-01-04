@@ -140,6 +140,23 @@ namespace my_books_tests
         }
 
 
+        [Test, Order(8)]
+        public void HTTPGET_GetPublisherData_ReturnOk_Test()
+        {
+            //Arrange
+            int publisherId = 1;
+            //Act
+            IActionResult actionResult = _publishersController.GetPublisherData(publisherId);
+            //Assert
+            Assert.That(actionResult, Is.TypeOf<OkObjectResult>());
+
+        }
+
+
+
+
+
+
         [OneTimeTearDown]
         public void CleanUp()
         {
