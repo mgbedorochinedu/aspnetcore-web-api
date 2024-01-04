@@ -101,7 +101,20 @@ namespace my_books_tests
             Assert.That(actionResult, Is.TypeOf<CreatedResult>());
         }
 
- 
+        [Test, Order(5)]
+        public void HTTPPOST_AddPublisher_ReturnBadRequest_Test()
+        {
+            //Arrange
+            var newPublisherVM = new PublisherVM()
+            {
+                Name = "123 New Publisher"
+            };
+            // Act
+            IActionResult actionResult = _publishersController.AddPublisher(newPublisherVM);
+            // Assert
+            Assert.That(actionResult, Is.TypeOf<BadRequestObjectResult>());
+        }
+
 
 
 
