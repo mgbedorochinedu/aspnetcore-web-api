@@ -66,7 +66,7 @@ namespace my_books_tests
             IActionResult actionResult = _publishersController.GetPublisherById(publisherId);
             Assert.That(actionResult, Is.TypeOf<OkObjectResult>());
             var publisherData = (actionResult as OkObjectResult).Value as Publisher;
-            //Asserp
+            //Assert
             Assert.That(publisherData.Name, Is.EqualTo("publisher 1").IgnoreCase);
             Assert.That(publisherData.Id, Is.EqualTo(1));
             Assert.That(publisherData, Is.Not.Null);
@@ -78,10 +78,10 @@ namespace my_books_tests
         public void HTTPGET_GetPublisherById_ReturnNotFound_Test()
         {
             //Arrange
-            int publisherId = 99;
+            int nonExistingPublisherId = 99;
 
             // Act
-            IActionResult actionResult = _publishersController.GetPublisherById(publisherId);
+            IActionResult actionResult = _publishersController.GetPublisherById(nonExistingPublisherId);
 
             // Assert
             Assert.That(actionResult, Is.TypeOf<NotFoundResult>());
@@ -116,7 +116,16 @@ namespace my_books_tests
         }
 
 
-
+        [Test, Order(6)]
+        public void HTTPDELETE_DeletePublisherById_ReturnOk_Test()
+        {
+            //Arrange
+            int existingPublisherId = 1;
+            //Act
+            IActionResult actionResult = _publishersController.DeletePublisherById(existingPublisherId);
+            //Assert
+            Assert.That(actionResult, Is.TypeOf<OkResult>());
+        }
 
 
 
