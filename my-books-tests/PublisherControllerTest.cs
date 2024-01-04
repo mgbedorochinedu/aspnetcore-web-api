@@ -128,6 +128,17 @@ namespace my_books_tests
         }
 
 
+        [Test, Order(7)]
+        public void HTTPDELETE_DeletePublisherById_ReturnBadRequest_Test()
+        {
+            //Arrange
+            int nonExistingPublisherId = 99;
+            //Act
+            IActionResult actionResult = _publishersController.DeletePublisherById(nonExistingPublisherId);
+            //Assert
+            Assert.That(actionResult, Is.TypeOf<BadRequestObjectResult>());
+        }
+
 
         [OneTimeTearDown]
         public void CleanUp()
