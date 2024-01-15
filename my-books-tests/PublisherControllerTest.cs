@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace my_books_tests
 {
+    [TestFixture]
     public class PublisherControllerTest
     {
         private static DbContextOptions<AppDbContext> dbContextOptions = new DbContextOptionsBuilder<AppDbContext>()
